@@ -83,6 +83,11 @@ tap.test('DynamoDB', (t) => {
     done()
   })
 
+  t.test('DocumentClient', (t) => {
+    new AWS.DynamoDB.DocumentClient({region: 'test'})
+    t.end()
+  })
+
   t.test('commands', (t) => {
     helper.runInTransaction((tx) => {
       async.eachSeries(TESTS, (cfg, cb) => {
