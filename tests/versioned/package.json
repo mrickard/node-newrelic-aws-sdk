@@ -12,7 +12,6 @@
       },
       "files": [
         "aws-sdk.tap.js",
-        "dynamodb.tap.js",
         "http-services.tap.js",
         "s3.tap.js"
       ]
@@ -26,9 +25,20 @@
       },
       "files": [
         "aws-sdk.tap.js",
-        "dynamodb.tap.js",
         "http-services.tap.js",
         "s3.tap.js"
+      ]
+    },
+    {
+      "engines": {
+        "node": ">=8.0"
+      },
+      "dependencies": {
+        "aws-sdk": ">=2.561.0 || 2.380.0",
+        "amazon-dax-client": "^1.2.2"
+      },
+      "files": [
+        "dynamodb.tap.js"
       ]
     }
   ],

@@ -81,7 +81,7 @@ const DOC_QUERY = {
 
 let tests = null
 
-function createTests(ddb, docClient) {
+function createTests(ddb, docClient, docDaxClient) {
   const composedTests = [
     {api: ddb, method: 'createTable', params: TABLE_DEF, operation: 'createTable'},
     {api: ddb, method: 'putItem', params: ITEM_DEF, operation: 'putItem'},
@@ -97,7 +97,15 @@ function createTests(ddb, docClient) {
     {api: docClient, method: 'update', params: DOC_ITEM, operation: 'updateItem'},
     {api: docClient, method: 'scan', params: {TableName: TABLE_NAME}, operation: 'scan'},
     {api: docClient, method: 'query', params: DOC_QUERY, operation: 'query'},
-    {api: docClient, method: 'delete', params: DOC_ITEM, operation: 'deleteItem'}
+    {api: docClient, method: 'delete', params: DOC_ITEM, operation: 'deleteItem'},
+
+    {api: docDaxClient, method: 'put', params: DOC_PUT_ITEM, operation: 'putItem'},
+    {api: docDaxClient, method: 'get', params: DOC_ITEM, operation: 'getItem'},
+    {api: docDaxClient, method: 'update', params: DOC_ITEM, operation: 'updateItem'},
+    {api: docDaxClient, method: 'scan', params: {TableName: TABLE_NAME},
+      operation: 'scan'},
+    {api: docDaxClient, method: 'query', params: DOC_QUERY, operation: 'query'},
+    {api: docDaxClient, method: 'delete', params: DOC_ITEM, operation: 'deleteItem'}
   ]
 
   return composedTests
@@ -108,6 +116,7 @@ tap.test('DynamoDB', (t) => {
 
   let helper = null
   let AWS = null
+  let AmazonDaxClient = null
 
   t.beforeEach((done) => {
     helper = utils.TestAgent.makeInstrumented()
@@ -117,11 +126,15 @@ tap.test('DynamoDB', (t) => {
       onRequire: require('../../lib/instrumentation')
     })
 
+    AmazonDaxClient = require('amazon-dax-client')
     AWS = require('aws-sdk')
-    const ddb = new AWS.DynamoDB({region: 'us-east-1'})
-    const docClient = new AWS.DynamoDB.DocumentClient({region: 'us-east-1'})
+    const ddb = new AWS.DynamoDB({region: 'us-east-2'})
+    const daxClient = new AmazonDaxClient(
+      {endpoints: ['nodejs-test.smt08g.clustercfg.dax.use2.cache.amazonaws.com:8111']})
+    const docClient = new AWS.DynamoDB.DocumentClient({region: 'us-east-2'})
+    const docDaxClient = new AWS.DynamoDB.DocumentClient({service: daxClient})
 
-    tests = createTests(ddb, docClient)
+    tests = createTests(ddb, docClient, docDaxClient)
 
     done()
   })
