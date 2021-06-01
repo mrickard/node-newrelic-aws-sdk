@@ -20,7 +20,7 @@ tap.test('aws-sdk', (t) => {
   let server = null
   let endpoint = null
 
-  t.beforeEach((done) => {
+  t.beforeEach(() => {
     server = createEmptyResponseServer()
     server.listen(0, () => {
       helper = utils.TestAgent.makeInstrumented()
@@ -33,17 +33,15 @@ tap.test('aws-sdk', (t) => {
       AWS.config.update({region: 'us-east-1'})
 
       endpoint = `http://localhost:${server.address().port}`
-      done()
     })
   })
 
-  t.afterEach((done) => {
+  t.afterEach(() => {
     server.close()
     server = null
 
     helper && helper.unload()
     AWS = null
-    done()
   })
 
   t.test('should mark requests to be dt-disabled', {skip: true}, (t) => {

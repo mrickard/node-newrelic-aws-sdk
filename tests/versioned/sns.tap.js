@@ -20,7 +20,7 @@ tap.test('SNS', (t) => {
 
   let server = null
 
-  t.beforeEach((done) => {
+  t.beforeEach(() => {
     server = createEmptyResponseServer()
     server.listen(0, () => {
       helper = utils.TestAgent.makeInstrumented()
@@ -36,18 +36,14 @@ tap.test('SNS', (t) => {
         endpoint: `http://localhost:${server.address().port}`,
         region: 'us-east-1'
       })
-
-      done()
     })
   })
 
-  t.afterEach((done) => {
+  t.afterEach(() => {
     server.close()
     server = null
 
     helper && helper.unload()
-
-    done()
   })
 
   t.test('publish with callback', (t) => {

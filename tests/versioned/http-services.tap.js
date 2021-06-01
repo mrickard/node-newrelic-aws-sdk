@@ -19,7 +19,7 @@ tap.test('AWS HTTP Services', (t) => {
   let server = null
   let endpoint = null
 
-  t.beforeEach((done) => {
+  t.beforeEach(() => {
     server = createEmptyResponseServer()
     server.listen(0, () => {
       helper = utils.TestAgent.makeInstrumented()
@@ -32,16 +32,14 @@ tap.test('AWS HTTP Services', (t) => {
       AWS.config.update({region: 'us-east-1'})
 
       endpoint = `http://localhost:${server.address().port}`
-      done()
     })
   })
 
-  t.afterEach((done) => {
+  t.afterEach(() => {
     server.close()
     server = null
 
     helper && helper.unload()
-    done()
   })
 
   t.test('APIGateway', (t) => {

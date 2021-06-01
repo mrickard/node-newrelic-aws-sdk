@@ -60,3 +60,6 @@ typings/
 
 # VS Code specific configuration
 .vscode
+
+# macOS
+.DS_Store

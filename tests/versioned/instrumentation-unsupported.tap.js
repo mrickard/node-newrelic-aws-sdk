@@ -15,7 +15,7 @@ tap.test('instrumentation is supported', (t) => {
   let helper = null
   let AWS = null
 
-  t.beforeEach((done) => {
+  t.beforeEach(() => {
     helper = utils.TestAgent.makeInstrumented()
     helper.registerInstrumentation({
       moduleName: 'aws-sdk',
@@ -23,22 +23,20 @@ tap.test('instrumentation is supported', (t) => {
       onRequire: require('../../lib/instrumentation')
     })
     AWS = require('aws-sdk')
-    done()
   })
 
-  t.afterEach((done) => {
+  t.afterEach(() => {
     helper && helper.unload()
     AWS = null
-    done()
   })
 
   t.test('AWS should not have newrelic attributes', (t) => {
-    t.assert(!AWS.__NR_instrumented, '__NR_instrumented not present')
+    t.ok(!AWS.__NR_instrumented, '__NR_instrumented not present')
     t.end()
   })
 
   t.test('instrumentation supported function', (t) => {
-    t.assert(
+    t.ok(
       !instrumentationHelper.instrumentationSupported(AWS),
       'instrumentationSupported returned false'
     )

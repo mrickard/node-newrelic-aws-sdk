@@ -22,7 +22,7 @@ tap.test('DynamoDB', (t) => {
 
   let server = null
 
-  t.beforeEach((done) => {
+  t.beforeEach(() => {
     server = createEmptyResponseServer()
     server.listen(0, () => {
       helper = utils.TestAgent.makeInstrumented()
@@ -48,12 +48,10 @@ tap.test('DynamoDB', (t) => {
 
       tableName = `delete-aws-sdk-test-table-${Math.floor(Math.random() * 100000)}`
       tests = createTests(ddb, docClient, tableName)
-
-      done()
     })
   })
 
-  t.afterEach((done) => {
+  t.afterEach(() => {
     server.close()
     server = null
 
@@ -63,8 +61,6 @@ tap.test('DynamoDB', (t) => {
     AWS = null
     tests = null
     tableName = null
-
-    done()
   })
 
   t.test('commands with callback', (t) => {

@@ -27,7 +27,7 @@ tap.test('SQS API', (t) => {
 
   let server = null
 
-  t.beforeEach((done) => {
+  t.beforeEach(() => {
     server = createSqsServer()
     server.listen(0, () => {
       helper = utils.TestAgent.makeInstrumented()
@@ -48,12 +48,10 @@ tap.test('SQS API', (t) => {
       })
 
       queueName = 'delete-aws-sdk-test-queue-' + Math.floor(Math.random() * 100000)
-
-      done()
     })
   })
 
-  t.afterEach((done) => {
+  t.afterEach(() => {
     helper && helper.unload()
 
     server.close()
@@ -68,8 +66,6 @@ tap.test('SQS API', (t) => {
     sendMessageRequestId = null
     sendMessageBatchRequestId = null
     receiveMessageRequestId = null
-
-    done()
   })
 
   t.test('commands with callback', (t) => {
